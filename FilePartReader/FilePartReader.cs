@@ -7,21 +7,25 @@ namespace FilePartReader
 {
     public class FilePartReader
     {
-        private string filePath;
-        private int fromLine;
-        private int toLine;
 
-        public string FilePath { get => filePath; set => filePath = value; }
-        public int FromLine { get => fromLine; set => fromLine = value; }
-        public int ToLine { get => toLine; set => toLine = value; }
-
-        public void FilePathReader()
+        //it sets the class' instance variables to some invalid default value
+        public FilePartReader()
         {
-            FilePath = 0;
+            /*FilePath = 0;
             FromLine = "a";
-            ToLine = "b";
+            ToLine = "b";*/
         }
 
+        public string FilePath { get; set; }
+        public int FromLine { get; set; }
+        public int ToLine { get; set; }
+
+
+
+
+        /* it's parameters are: filePath as a string; fromLine as an int
+toLine as an int. it should throws an ArgumentException:
+if toLine is smaller than fromLine; if fromLine is smaller than 1*/
 
         public void Setup(string filePath, int fromLine, int toLine)
         {
@@ -36,7 +40,9 @@ namespace FilePartReader
                 ToLine = toLine;
             }
         }
-
+        /*opens the file on filePath , and gives back it's content as a String
+it doesn't catch the exception being raised, if the file isn't present on filePath, so actually the method throws the exception it received
+*/
         public String Read()
         {
             FileInfo fileToRead = new FileInfo(FilePath);
@@ -49,9 +55,9 @@ namespace FilePartReader
             return text;
         }
 
-
-
-
+        /*
+reads the file with Read()
+it gives back every line from it's content between fromLine and toLine (both of them are included), and returns these lines as a String. Take care because if fromLine is 1, it means the very first row in the file. Also, if fromLine is 1 and toLine is 1 also, we will read only the very first line.*/
 
         public String ReadLines()
         {
