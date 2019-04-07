@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -45,14 +46,10 @@ it doesn't catch the exception being raised, if the file isn't present on filePa
 */
         public String Read()
         {
-            FileInfo fileToRead = new FileInfo(FilePath);
-            string text;
-            FileStream fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read);
-            using (var streamReader = new StreamReader(fileStream))
+            using (StreamReader reader = new StreamReader(FilePath))
             {
-                text = streamReader.ReadToEnd();
+                return reader.ReadToEnd();
             }
-            return text;
         }
 
         /*
@@ -61,15 +58,22 @@ it gives back every line from it's content between fromLine and toLine (both of 
 
         public String ReadLines()
         {
-            FileInfo fileToRead = new FileInfo(FilePath);
-            string lines;
+            var fileText = Read();
             int numOfLines = ToLine - (FromLine - 1);
-            FileStream fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read);
-            using (var streamReader = new StreamReader(fileStream))
+            var resultString = new StringBuilder();
+            var lines = new List<string>();
+
+            lines = fileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+
+            for (int i = 0; i < lines.Count + 1; i++)
             {
-                lines = streamReader.ReadLine().Skip(FromLine - 1).Take(numOfLines).ToString();
+                if (i >= FromLine - 1 && i <= ToLine - 1)
+                {
+                    resultString.Append(lines[i] + ' ');
+                }
             }
-            return lines;
+            resultString.Length--;
+            return resultString.ToString();
         }
 
     }

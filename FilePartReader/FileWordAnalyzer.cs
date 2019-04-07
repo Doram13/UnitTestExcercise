@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FilePartReader
 {
-    class FileWordAnalyzer : FilePartReader
+    public class FileWordAnalyzer : FilePartReader
     {
         public FilePartReader FilePartReader;
 
